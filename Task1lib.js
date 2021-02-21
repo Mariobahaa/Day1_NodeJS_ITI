@@ -21,31 +21,49 @@ function save(usersList){
 
 function createUser(name, age , phone){
     
-    let usersList = [];
-    usersList = load(usersList);
-    //console.log(usersList);
-    let newUser = {
-        name, age, phone
-    };
-  
-    //fs.appendFileSync('users.txt',JSON.stringify(newUser));
-    usersList.push(newUser);
-    save(usersList);
+    fs.readFile('users.txt',{encoding: 'utf8'},(err,data)=>{
+        if(err ==undefined || err== null){
+            usersList = JSON.parse(data);
+            let newUser = {
+                name, age, phone
+            };
+          
+            //fs.appendFileSync('users.txt',JSON.stringify(newUser));
+            usersList.push(newUser);
+            save(usersList);
+
+        }
+        else{
+            usersList = [];
+            console.log(err.message);
+        }
+        });
+    
 }
 
 function displayUsers(name){
     let usersList = [];
-    usersList = load(usersList);
-    if(arguments.length > 0){
-        for(u of usersList){
-            if(u.name == name) console.log(u);
+    //usersList = load(usersList);
+    fs.readFile('users.txt',{encoding: 'utf8'},(err,data)=>{
+    if(err ==undefined || err== null){
+        usersList = JSON.parse(data);
+        if(arguments.length > 0){
+            for(u of usersList){
+                    if(u.name == name) console.log(u);
+            }
+        }
+        else {
+            for(u of usersList){
+                console.log(u);
+            }
         }
     }
-    else {
-        for(u of usersList){
-            console.log(u);
-        }
+    else{
+        usersList = [];
+        console.log(err.message);
     }
+    });
+    
 }
 
 
