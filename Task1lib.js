@@ -1,7 +1,7 @@
 //crud create update delete 
 const fs = require('fs');
 
-
+/*
 function load(usersList){
 
     try{
@@ -12,7 +12,7 @@ function load(usersList){
         console.log(err.message);
     }
     return usersList;
-}
+}*/
 
 function save(usersList){
     if(usersList!= undefined && usersList != [] && usersList != null)
@@ -24,19 +24,21 @@ function createUser(name, age , phone){
     fs.readFile('users.txt',{encoding: 'utf8'},(err,data)=>{
         if(err ==undefined || err== null){
             usersList = JSON.parse(data);
-            let newUser = {
-                name, age, phone
-            };
-          
-            //fs.appendFileSync('users.txt',JSON.stringify(newUser));
-            usersList.push(newUser);
-            save(usersList);
+            
 
         }
         else{
             usersList = [];
             console.log(err.message);
         }
+
+        let newUser = {
+            name, age, phone
+        };
+      
+        //fs.appendFileSync('users.txt',JSON.stringify(newUser));
+        usersList.push(newUser);
+        save(usersList);
         });
     
 }
