@@ -23,7 +23,7 @@ function createUser(name, age , phone){
     
     let usersList = [];
     usersList = load(usersList);
-    console.log(usersList);
+    //console.log(usersList);
     let newUser = {
         name, age, phone
     };
@@ -33,7 +33,23 @@ function createUser(name, age , phone){
     save(usersList);
 }
 
+function displayUsers(name){
+    let usersList = [];
+    usersList = load(usersList);
+    if(arguments.length > 0){
+        for(u of usersList){
+            if(u.name == name) console.log(u);
+        }
+    }
+    else {
+        for(u of usersList){
+            console.log(u);
+        }
+    }
+}
+
 
 module.exports ={
-    createUser: createUser
+    createUser: createUser,
+    displayUsers: displayUsers
 };
