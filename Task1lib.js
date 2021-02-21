@@ -16,7 +16,9 @@ function load(usersList){
 
 function save(usersList){
     if(usersList!= undefined && usersList != [] && usersList != null)
-    fs.writeFileSync('users.txt',JSON.stringify(usersList));
+    fs.writeFile('users.txt',JSON.stringify(usersList),()=> {
+        console.log('written successfully');
+    });
 
     //fs.writeFileSync('users.txt',JSON.stringify(usersList));
 }
@@ -45,7 +47,7 @@ function createUser(name, age , phone){
     
 }
 
-function displayUsers(name){
+function displayUser(name){
     let usersList = [];
     //usersList = load(usersList);
     fs.readFile('users.txt',{encoding: 'utf8'},(err,data)=>{
@@ -97,8 +99,36 @@ function updateUser(name,age,phone){
     
 }
 
+function deleteUser(name){
+    let usersList = [];
+    let users = [];
+    //usersList = load(usersList);
+    fs.readFile('users.txt',{encoding: 'utf8'},(err,data)=>{
+    if(err ==undefined || err== null){
+        usersList = JSON.parse(data);
+        if(arguments.length > 0){
+            for(u of usersList){
+                    if(u.name != name){
+                        users.push(u);
+                    }
+            }
+            save(users);
+        }
+        else {
+            return;
+        }
+    }
+    else{
+        usersList = [];
+        console.log(err.message);
+    }
+    });
+    
+}
+
 module.exports ={
     createUser: createUser,
-    displayUsers: displayUsers,
-    updateUser: updateUser
+    displayUser: displayUser,
+    updateUser: updateUser,
+    deleteUser: deleteUser
 };
