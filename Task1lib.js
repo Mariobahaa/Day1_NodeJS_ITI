@@ -17,6 +17,8 @@ function load(usersList){
 function save(usersList){
     if(usersList!= undefined && usersList != [] && usersList != null)
     fs.writeFileSync('users.txt',JSON.stringify(usersList));
+
+    //fs.writeFileSync('users.txt',JSON.stringify(usersList));
 }
 
 function createUser(name, age , phone){
@@ -68,8 +70,35 @@ function displayUsers(name){
     
 }
 
+function updateUser(name,age,phone){
+    let usersList = [];
+    //usersList = load(usersList);
+    fs.readFile('users.txt',{encoding: 'utf8'},(err,data)=>{
+    if(err ==undefined || err== null){
+        usersList = JSON.parse(data);
+        if(arguments.length > 0){
+            for(u of usersList){
+                    if(u.name == name){
+                        u.age = age;
+                        u.phone = phone;
+                    }
+            }
+            save(usersList);
+        }
+        else {
+            return;
+        }
+    }
+    else{
+        usersList = [];
+        console.log(err.message);
+    }
+    });
+    
+}
 
 module.exports ={
     createUser: createUser,
-    displayUsers: displayUsers
+    displayUsers: displayUsers,
+    updateUser: updateUser
 };
